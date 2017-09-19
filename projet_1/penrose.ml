@@ -56,6 +56,9 @@ let init_screen () =
 
 
 let draw (t,a,b,c:triangle) =
+  (*
+   * draws the triangle and its outline
+   *)
   let xa,ya = int_tuple_of_point a
   and xb,yb = int_tuple_of_point b
   and xc,yc = int_tuple_of_point c
@@ -81,9 +84,13 @@ let draw (t,a,b,c:triangle) =
  *)
 
 
-let rec divide (t,a,b,c as tri : triangle) = function
+let rec divide (t,a,b,c as tri : triangle) generation  =
+  (*
+   * Renders the triangle divided 'generation' times.
+   *)
+  match generation with
   |0 -> draw tri;
-  |generation ->
+  |_ ->
     let new_gen = generation - 1 in
     begin match t with
     |Obtuse ->
