@@ -1,3 +1,4 @@
+
 type rod = string;;
 
 let rodA:rod = "A"
@@ -17,6 +18,8 @@ let movement (origin:rod) (destination:rod) =
        " to rod " ^ destination);
   print_newline()
 ;;
+
+(* the first argument is the source, and the 3rd the destination. *)
 
 let rec hanoi (a:rod) (b:rod) (c:rod) = function
   |0 -> ()
