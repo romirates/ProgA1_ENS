@@ -1,16 +1,30 @@
 #load "graphics.cma";;
 open Graphics;;
-(* a point is a couple of int *)
+
+(*
+ **********************************************************
+ *                     Types                              *
+ **********************************************************
+ *)
+
 type point = int * int;;
 type disc = int * int;;
 
+(* TODO: use product type : what do all those points do ? *)
 type rod_shape = color * point * point * point* point;;
 type rod_content = disc list;;
 
+(* TODO : product type *)
 type rod = rod_content * rod_shape;;
 
 type game = rod*rod*rod;;
 
+
+(*
+ **********************************************************
+ *                    Constants                           *
+ **********************************************************
+ *)
 
 let width = 1920
 and height = 1800;;
@@ -24,6 +38,7 @@ and spacing = 20*width_percent;;
 
 let max_disc_width = 40*width_percent;;
 
+(* TODO: make this prettier (product types and indent) *)
 let rod_shapeA:rod_shape = (red, (spacing,0), (spacing,rod_height), (spacing+rod_width,rod_height), (spacing+rod_width,0))
 and rod_shapeB:rod_shape = (green, (2*spacing+rod_width,0), (2*spacing+rod_width,rod_height),
                             (2*(spacing+rod_width),rod_height), (2*(spacing+rod_width),0))

@@ -21,7 +21,12 @@ type triangle = angle * point * point * point;;
 let phi = 1.61803398875;;
 let inv_phi = 0.61803398875;;
 let first_triangle =
-  let len = 500.0 in (Acute, (0. , 0.), (len *. phi , 0.), (1.30901699438 *. len , 0.95105651629 *. len) : triangle)
+  let len = 500.0 in
+  (Acute,
+  (0. , 0.),
+  (len *. phi , 0.),
+  (1.30901699438 *. len , 0.95105651629 *. len)
+  : triangle)
 ;;
 
 (*
