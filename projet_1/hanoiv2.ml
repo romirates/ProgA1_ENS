@@ -105,6 +105,10 @@ let draw_game rodA rodB rodC =
  *********************************************************
  *)
 
+let init_rod ~pos ~shape ~content =
+  {pos; shape; content}
+;;
+
 (*
 init_pile_of_disc :
 
