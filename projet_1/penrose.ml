@@ -1,21 +1,40 @@
 #load "graphics.cma";;
 open Graphics;;
 
+(*
+ *********************************************************
+ *                  Types                                *
+ *********************************************************
+ *)
+
 type point = float * float;;
 type vector = point;;
 type angle = Obtuse | Acute;;
 type triangle = angle * point * point * point;;
 
+(*
+ *********************************************************
+ *                  Constants                            *
+ *********************************************************
+ *)
+
 let phi = 1.61803398875;;
 let inv_phi = 0.61803398875;;
 let first_triangle =
-  let len = 500.0 in (Acute, (0. , 0.), (len *. phi , 0.), (1.30901699438 *. len , 0.95105651629 *. len) : triangle)
+  let len = 500.0 in
+  (Acute,
+  (0. , 0.),
+  (len *. phi , 0.),
+  (1.30901699438 *. len , 0.95105651629 *. len)
+  : triangle)
 ;;
 
-let init_screen = function () ->
-                            close_graph ();
-                            open_graph " 800x600-0+0"
-;;
+(*
+ *********************************************************
+ *             Data manipulation functions               *
+ *********************************************************
+ *)
+
 let int_tuple_of_point (x,y :point) =
   int_of_float x, int_of_float y
 ;;
@@ -29,7 +48,22 @@ let mult_vector scalar (u,v:vector) =
   (scalar *. u, scalar  *. v : vector)
 ;;
 
+(*
+ *********************************************************
+ *            Printing functions                         *
+ *********************************************************
+ *)
+
+let init_screen () =
+  close_graph ();
+  open_graph " 800x600-0+0"
+;;
+
+
 let draw (t,a,b,c:triangle) =
+  (*
+   * draws the triangle and its outline
+   *)
   let xa,ya = int_tuple_of_point a
   and xb,yb = int_tuple_of_point b
   and xc,yc = int_tuple_of_point c
@@ -47,9 +81,21 @@ let draw (t,a,b,c:triangle) =
      lineto xa ya;
 ;;
 
-let rec divide (t,a,b,c as tri : triangle) = function
+
+(*
+ *********************************************************
+ *                     Algorithm                         *
+ *********************************************************
+ *)
+
+
+let rec divide (t,a,b,c as tri : triangle) generation  =
+  (*
+   * Renders the triangle divided 'generation' times.
+   *)
+  match generation with
   |0 -> draw tri;
-  |generation ->
+  |_ ->
     let new_gen = generation - 1 in
     begin match t with
     |Obtuse ->
@@ -73,5 +119,12 @@ let rec divide (t,a,b,c as tri : triangle) = function
       divide t3 new_gen;
     end
 ;;
-
           
+(*
+ *********************************************************
+ *                     Tests                             *
+ *********************************************************
+ *)
+
+init_screen ();
+divide first_triangle 6;;

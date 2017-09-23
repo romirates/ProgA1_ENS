@@ -1,7 +1,6 @@
 #load "graphics.cma";;
 #load "unix.cma";;
 open Graphics;;
- 
 
 (*
  *********************************************************
@@ -58,7 +57,6 @@ let init_counter() = (count := 0);;
 let step() = (incr count);;
 let get() = (!count);;
 (*----------------------------------*)
-
 
 (*
  *********************************************************
@@ -182,4 +180,4 @@ let start_game nb_disc =
   draw_game rodA rodB rodC;
   Unix.sleep(1);
   hanoi rodA rodB rodC nb_disc 
-;;      
+;;
