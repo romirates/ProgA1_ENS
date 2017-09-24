@@ -185,7 +185,7 @@ let penrose tri generation =
     draw_outlines ();
   in
   (*
-   * 'draw_all_gens' akes the list of triangle in one gen,
+   * 'draw_all_gens' takes the list of triangle in one gen,
    * creates the list of their children, then draws the children.
    * The function does this 'gen' times.
    *)
@@ -203,7 +203,6 @@ let penrose tri generation =
         draw_current_gen children;
         draw_all_gens children [] (gen-1)
       end
->>>>>>> 03776933f3a3978c426ccc110a056c509c5ea868
   in
   draw_current_gen [tri];
   draw_all_gens [tri] [] generation
