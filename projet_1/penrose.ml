@@ -104,6 +104,7 @@ let rec divide (t,a,b,c as tri : triangle) generation  =
       let t1 = (Acute, b, new_point, a : triangle)
       and t2 = (Obtuse, new_point, c, a : triangle)
       in
+      
       divide t1 new_gen;
       divide t2 new_gen;
     |Acute ->

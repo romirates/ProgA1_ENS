@@ -151,7 +151,8 @@ let penrose (tri : triangle) generation =
       let rec aux2 l = match l with
         | [] -> ()
         | h::t ->
-          let children = divide h in
+           let children = divide h
+           in
           aux children (n-1);
           draw_inline h children;
           aux2 t

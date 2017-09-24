@@ -1,3 +1,28 @@
+(*
+          Hanoi V2 
+ ***************************
+ *                         *
+ *       HOW TO PLAY       *
+ *                         *
+ ***************************
+1. charge this file on the ocaml-toplevel
+
+2. run "start_game <nb_disc>;;" 
+   where nb_disc is the number of disc you want.
+
+3. admire 
+
+4. run get() to know how many step it took to complete the game.
+
+Things you might want to change :
+
+- height and width : screen's proportion
+
+- speed_game : lower is faster
+
+*)
+
+
 #load "graphics.cma";;
 #load "unix.cma";;
 open Graphics;;
@@ -99,12 +124,17 @@ let draw_game rodA rodB rodC =
   draw_rod rodB;
   draw_rod rodC
 ;;
+
 (*
  *********************************************************
  *            Initialization functions                   *
  *********************************************************
  *)
+(*
+init_rod :
 
+used to construct a rod 
+*)
 let init_rod ~pos ~shape ~content =
   {pos; shape; content}
 ;;
@@ -112,7 +142,7 @@ let init_rod ~pos ~shape ~content =
 (*
 init_pile_of_disc :
 
-used to construct the pile of disc from the smaller to the the bigger one 
+used to construct the pile of disc from the smaller to the the bigger one. 
 *)
 
 let rec init_pile_of_disc base_width base_height disc_no = function
@@ -158,7 +188,11 @@ let movement (origin:rod) (destination:rod) =
   origin.content <- List.tl origin.content;
   destination.content <- origin_hd::destination.content
 ;;
+(*
+hanoi :
 
+resolve the hanoi game with 3 tower and "nb_disc" disc
+ *)
 let rec hanoi (a:rod) (b:rod) (c:rod) = function
   |0 -> ()
   |n_disc ->

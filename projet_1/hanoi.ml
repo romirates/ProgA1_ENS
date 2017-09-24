@@ -1,3 +1,19 @@
+(*
+ ***************************
+ *                         *
+ *       HOW TO PLAY       *
+ *                         *
+ ***************************
+1. charge this file on the ocaml-toplevel
+
+2. run "start_game <nb_disc>;;" 
+   where nb_disc is the number of disc you want.
+
+3. let our code spam the console.
+
+4. run get() to know how many step it take to resolve the game.
+
+*)
 
 type rod = string;;
 
@@ -30,3 +46,6 @@ let rec hanoi (a:rod) (b:rod) (c:rod) = function
     hanoi b a c (n_disc-1)
 ;;
 
+let start_game nb_disc =
+  hanoi rodA rodB rodC nb_disc
+;;
