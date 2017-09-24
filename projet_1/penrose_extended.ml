@@ -1,4 +1,5 @@
 #load "graphics.cma";;
+#load "unix.cma";;
 open Graphics;;
 
 (*
@@ -28,6 +29,7 @@ let first_triangle =
   (1.30901699438 *. len +. 10., 0.95105651629 *. len +.10.)
   : triangle)
 ;;
+let speed = 1.5;;
 
 (*
  *********************************************************
@@ -50,25 +52,25 @@ let mult_vector scalar (u,v:vector) =
 
 
 let divide (t,a,b,c:triangle) =
-        (*
-         * Returns the list of the triangle's children 
-         *)
-        match t with
-        | Acute ->
-                        let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
-                        and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
-                        in
-                        [
-                               (Acute, c, new_point1, new_point2 : triangle);
-                               (Acute, c, new_point2, b : triangle);
-                               (Obtuse, new_point1, a, new_point2 : triangle)
-                        ]
-        | Obtuse ->
-                        let new_point = add_vector b (mult_vector inv_phi (get_vector b c)) in
-                       [
-                               (Acute, b, new_point, a : triangle);
-                               (Obtuse, new_point, c, a : triangle)
-                       ] 
+  (*
+   * Returns the list of the triangle's children 
+   *)
+  match t with
+  | Acute ->
+    let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
+    and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
+    in
+    [
+      (Acute, c, new_point1, new_point2 : triangle);
+      (Acute, c, new_point2, b : triangle);
+      (Obtuse, new_point1, a, new_point2 : triangle)
+    ]
+  | Obtuse ->
+    let new_point = add_vector b (mult_vector inv_phi (get_vector b c)) in
+    [
+      (Acute, b, new_point, a : triangle);
+      (Obtuse, new_point, c, a : triangle)
+    ] 
 ;;
 (*
  *********************************************************
@@ -81,6 +83,17 @@ let init_screen () =
   open_graph " 800x600-0+0"
 ;;
 
+let draw_black_line a b =
+  (*
+   * draws a black line between points a and b.
+   *)
+  let xa, ya = int_tuple_of_point a
+  and xb, yb = int_tuple_of_point b
+  in
+  set_color black;
+  moveto xa ya;
+  lineto xb yb
+;;
 
 let draw (t,a,b,c:triangle) =
   (*
@@ -90,44 +103,46 @@ let draw (t,a,b,c:triangle) =
   and xb,yb = int_tuple_of_point b
   and xc,yc = int_tuple_of_point c
   in let poly = [| xa,ya ; xb,yb ; xc,yc |]
-     in
-     begin match t with
+  in
+  begin match t with
      |Obtuse -> set_color red
      |Acute -> set_color green
-     end;
-     fill_poly poly;
+  end;
+  fill_poly poly;
 ;;
 
+let rec draw_triangle_list l = match l with
+  | h::t ->
+    draw h;
+    draw_triangle_list t
+  | _ -> ()
+;;
 
 let draw_outline (t,a,b,c:triangle) =
-        (*
-         * draws the triangle's outline
-         *)
-        let xa, ya = int_tuple_of_point a
-        and xb, yb = int_tuple_of_point b
-        and xc, yc = int_tuple_of_point c
-        in
-        set_color black;
-        moveto xa ya;
-        lineto xb yb;
-        lineto xc yc;
-        lineto xa ya
+  (*
+   * draws the triangle's outline
+   *)
+   draw_black_line a b;
+   draw_black_line b c;
+   draw_black_line c a
 ;;
 
-(*
- * TODO: make this work
- * @Romain : utilise la feuille avec des gribouillis sur les triangles
- * pour voir quelles lignes sont à afficher.
- *)
-let rec draw_inline (t,_,_,_:triangle) l =
+let rec draw_inline (t,a,b,c:triangle) =
   (*
-   * Takes a triangle and the list of its children,
-   * draws the children's outlines, except those that
-   * are also the parent triangle's outline.
+   * Takes a triangle draws the triangle's children's outlines,
+   * except those that are also the parent triangle's outline.
    *)
   match t with
-  | Acute -> ()
-  | Obtuse -> ()
+   | Acute ->
+     let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
+     and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
+     in
+     draw_black_line new_point1 new_point2;
+     draw_black_line new_point2 c
+   | Obtuse ->
+     let new_point = add_vector b (mult_vector inv_phi (get_vector b c))
+     in
+     draw_black_line a new_point
 ;;
 
 (*
@@ -137,30 +152,61 @@ let rec draw_inline (t,_,_,_:triangle) l =
  *)
 
 
-let penrose (tri : triangle) generation =
-        (*
-         * Draws the Penrose tessellation, the triangle will be divided generation times.
-         *)
-  let rec draw_triangle_list l = match l with
-    | h::t -> draw h; draw_triangle_list t
-    | _ -> ()
+let penrose tri generation =
+  (*
+   * Draws the Penrose tesselation one generation at a time,
+   * for 'generation' generations.
+   * The zeroth generation is given by the triangle 'tri'.
+   *)
+  
+  (*Remember the triangles already visited in order to draw their "inline".*)
+  let list_of_visited_triangles = ref []
   in
-  let rec aux l n = match n with
-    | 0 -> draw_triangle_list l
+  (* Draws the outline of all the current generation's triangles using 
+   * 'list_of_visited_triangles'
+   *)
+  let draw_outlines () =
+    draw_outline tri;
+    let rec aux l_o_v_t = match l_o_v_t with
+      | h::t ->
+        draw_inline h;
+        aux t
+      | _ -> ()
+    in
+    aux !list_of_visited_triangles
+  in
+  (*
+   * Draws the current generation, given the list of triangles
+   * of this generation.
+   *)
+  let draw_current_gen triangles =
+    clear_graph();
+    draw_triangle_list triangles;
+    draw_outlines ();
+  in
+  (*
+   * 'draw_all_gens' akes the list of triangle in one gen,
+   * creates the list of their children, then draws the children.
+   * The function does this 'gen' times.
+   *)
+  let rec draw_all_gens triangle_list children gen =
+    match gen with
+    | 0 ->()
     | _ ->
-      let rec aux2 l = match l with
-        | [] -> ()
-        | h::t ->
-           let children = divide h
-           in
-          aux children (n-1);
-          draw_inline h children;
-          aux2 t
-      in
-      aux2 l
+      begin match triangle_list with
+      | h::t ->
+        let new_children = divide h in
+        list_of_visited_triangles := h::(!list_of_visited_triangles);
+        draw_all_gens t (new_children @ children) gen
+      | _ ->
+        Unix.sleepf speed;
+        draw_current_gen children;
+        draw_all_gens children [] (gen-1)
+      end
+>>>>>>> 03776933f3a3978c426ccc110a056c509c5ea868
   in
-  aux [tri] generation;
-  draw_outline tri
+  draw_current_gen [tri];
+  draw_all_gens [tri] [] generation
 ;;
           
 (*
