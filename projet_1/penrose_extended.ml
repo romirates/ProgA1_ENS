@@ -1,4 +1,5 @@
 #load "graphics.cma";;
+#load "unix.cma";;
 open Graphics;;
 
 (*
@@ -28,6 +29,7 @@ let first_triangle =
   (1.30901699438 *. len +. 10., 0.95105651629 *. len +.10.)
   : triangle)
 ;;
+let speed = 1.5;;
 
 (*
  *********************************************************
@@ -109,6 +111,12 @@ let draw (t,a,b,c:triangle) =
   fill_poly poly;
 ;;
 
+let rec draw_triangle_list l = match l with
+  | h::t ->
+    draw h;
+    draw_triangle_list t
+  | _ -> ()
+;;
 
 let draw_outline (t,a,b,c:triangle) =
   (*
@@ -144,29 +152,60 @@ let rec draw_inline (t,a,b,c:triangle) =
  *)
 
 
-let penrose (tri : triangle) generation =
+let penrose tri generation =
   (*
-   * Draws the Penrose tessellation, the triangle will be divided generation times.
+   * Draws the Penrose tesselation one generation at a time,
+   * for 'generation' generations.
+   * The zeroth generation is given by the triangle 'tri'.
    *)
-  let rec draw_triangle_list l = match l with
-    | h::t -> draw h; draw_triangle_list t
-    | _ -> ()
+  
+  (*Remember the triangles already visited in order to draw their "inline".*)
+  let list_of_visited_triangles = ref []
   in
-  let rec aux l n = match n with
-    | 0 -> draw_triangle_list l
+  (* Draws the outline of all the current generation's triangles using 
+   * 'list_of_visited_triangles'
+   *)
+  let draw_outlines () =
+    draw_outline tri;
+    let rec aux l_o_v_t = match l_o_v_t with
+      | h::t ->
+        draw_inline h;
+        aux t
+      | _ -> ()
+    in
+    aux !list_of_visited_triangles
+  in
+  (*
+   * Draws the current generation, given the list of triangles
+   * of this generation.
+   *)
+  let draw_current_gen triangles =
+    clear_graph();
+    draw_triangle_list triangles;
+    draw_outlines ();
+  in
+  (*
+   * 'draw_all_gens' akes the list of triangle in one gen,
+   * creates the list of their children, then draws the children.
+   * The function does this 'gen' times.
+   *)
+  let rec draw_all_gens triangle_list children gen =
+    match gen with
+    | 0 ->()
     | _ ->
-      let rec handle_triangle_list l = match l with
-        | [] -> ()
-        | h::t ->
-          let children = divide h in
-          aux children (n-1);
-          draw_inline h;
-          handle_triangle_list t
-      in
-      handle_triangle_list l
+      begin match triangle_list with
+      | h::t ->
+        let new_children = divide h in
+        list_of_visited_triangles := h::(!list_of_visited_triangles);
+        draw_all_gens t (new_children @ children) gen
+      | _ ->
+        Unix.sleepf speed;
+        draw_current_gen children;
+        draw_all_gens children [] (gen-1)
+      end
   in
-  aux [tri] generation;
-  draw_outline tri
+  draw_current_gen [tri];
+  draw_all_gens [tri] [] generation
 ;;
           
 (*
