@@ -50,25 +50,25 @@ let mult_vector scalar (u,v:vector) =
 
 
 let divide (t,a,b,c:triangle) =
-        (*
-         * Returns the list of the triangle's children 
-         *)
-        match t with
-        | Acute ->
-                        let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
-                        and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
-                        in
-                        [
-                               (Acute, c, new_point1, new_point2 : triangle);
-                               (Acute, c, new_point2, b : triangle);
-                               (Obtuse, new_point1, a, new_point2 : triangle)
-                        ]
-        | Obtuse ->
-                        let new_point = add_vector b (mult_vector inv_phi (get_vector b c)) in
-                       [
-                               (Acute, b, new_point, a : triangle);
-                               (Obtuse, new_point, c, a : triangle)
-                       ] 
+  (*
+   * Returns the list of the triangle's children 
+   *)
+  match t with
+  | Acute ->
+    let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
+    and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
+    in
+    [
+      (Acute, c, new_point1, new_point2 : triangle);
+      (Acute, c, new_point2, b : triangle);
+      (Obtuse, new_point1, a, new_point2 : triangle)
+    ]
+  | Obtuse ->
+    let new_point = add_vector b (mult_vector inv_phi (get_vector b c)) in
+    [
+      (Acute, b, new_point, a : triangle);
+      (Obtuse, new_point, c, a : triangle)
+    ] 
 ;;
 (*
  *********************************************************
@@ -81,6 +81,17 @@ let init_screen () =
   open_graph " 800x600-0+0"
 ;;
 
+let draw_black_line a b =
+  (*
+   * draws a black line between points a and b.
+   *)
+  let xa, ya = int_tuple_of_point a
+  and xb, yb = int_tuple_of_point b
+  in
+  set_color black;
+  moveto xa ya;
+  lineto xb yb
+;;
 
 let draw (t,a,b,c:triangle) =
   (*
@@ -90,44 +101,40 @@ let draw (t,a,b,c:triangle) =
   and xb,yb = int_tuple_of_point b
   and xc,yc = int_tuple_of_point c
   in let poly = [| xa,ya ; xb,yb ; xc,yc |]
-     in
-     begin match t with
+  in
+  begin match t with
      |Obtuse -> set_color red
      |Acute -> set_color green
-     end;
-     fill_poly poly;
+  end;
+  fill_poly poly;
 ;;
 
 
 let draw_outline (t,a,b,c:triangle) =
-        (*
-         * draws the triangle's outline
-         *)
-        let xa, ya = int_tuple_of_point a
-        and xb, yb = int_tuple_of_point b
-        and xc, yc = int_tuple_of_point c
-        in
-        set_color black;
-        moveto xa ya;
-        lineto xb yb;
-        lineto xc yc;
-        lineto xa ya
+  (*
+   * draws the triangle's outline
+   *)
+   draw_black_line a b;
+   draw_black_line b c;
+   draw_black_line c a
 ;;
 
-(*
- * TODO: make this work
- * @Romain : utilise la feuille avec des gribouillis sur les triangles
- * pour voir quelles lignes sont à afficher.
- *)
-let rec draw_inline (t,_,_,_:triangle) l =
+let rec draw_inline (t,a,b,c:triangle) =
   (*
-   * Takes a triangle and the list of its children,
-   * draws the children's outlines, except those that
-   * are also the parent triangle's outline.
+   * Takes a triangle draws the triangle's children's outlines,
+   * except those that are also the parent triangle's outline.
    *)
   match t with
-  | Acute -> ()
-  | Obtuse -> ()
+   | Acute ->
+     let new_point1 = add_vector c (mult_vector inv_phi (get_vector c a))
+     and new_point2 = add_vector a (mult_vector inv_phi (get_vector a b))
+     in
+     draw_black_line new_point1 new_point2;
+     draw_black_line new_point2 c
+   | Obtuse ->
+     let new_point = add_vector b (mult_vector inv_phi (get_vector b c))
+     in
+     draw_black_line a new_point
 ;;
 
 (*
@@ -138,9 +145,9 @@ let rec draw_inline (t,_,_,_:triangle) l =
 
 
 let penrose (tri : triangle) generation =
-        (*
-         * Draws the Penrose tessellation, the triangle will be divided generation times.
-         *)
+  (*
+   * Draws the Penrose tessellation, the triangle will be divided generation times.
+   *)
   let rec draw_triangle_list l = match l with
     | h::t -> draw h; draw_triangle_list t
     | _ -> ()
@@ -148,15 +155,15 @@ let penrose (tri : triangle) generation =
   let rec aux l n = match n with
     | 0 -> draw_triangle_list l
     | _ ->
-      let rec aux2 l = match l with
+      let rec handle_triangle_list l = match l with
         | [] -> ()
         | h::t ->
           let children = divide h in
           aux children (n-1);
-          draw_inline h children;
-          aux2 t
+          draw_inline h;
+          handle_triangle_list t
       in
-      aux2 l
+      handle_triangle_list l
   in
   aux [tri] generation;
   draw_outline tri
