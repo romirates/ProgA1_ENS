@@ -1,0 +1,13 @@
+
+         ***************************
+         *                         *
+         *       HOW TO PLAY       *
+         *                         *
+         ***************************
+1. charge penrose.ml on the ocaml-toplevel
+
+2. run "start_game <triangle_type> <generation>;;" 
+   where triangle_type is "acute" or "obtuse" 
+   and generation the number of generation you want.
+
+3. admire 

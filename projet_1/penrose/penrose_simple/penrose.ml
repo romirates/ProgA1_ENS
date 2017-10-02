@@ -17,18 +17,27 @@ type triangle = angle * point * point * point;;
  *                  Constants                            *
  *********************************************************
  *)
-
+let length_triangle = 450.0;;
 let phi = 1.61803398875;;
 let inv_phi = 0.61803398875;;
-let first_triangle =
-  let len = 500.0 in
+
+let first_triangle_acute =
   (Acute,
-  (0. , 0.),
-  (len *. phi , 0.),
-  (1.30901699438 *. len , 0.95105651629 *. len)
+  (10. , 10.),
+  (10. +. length_triangle *. phi , 10. ),
+  (10. +. 1.30901699438 *. length_triangle, 10. +. 0.95105651629 *. length_triangle)
   : triangle)
 ;;
 
+let first_triangle_obtuse =
+  (Obtuse,
+  (10. , 10.),
+  (10. +. (length_triangle *. phi) , 10.),
+  (10. +. phi/.2. *. length_triangle, 10. +. 0.5877852523 *.  length_triangle)
+  : triangle)
+;;
+
+  
 (*
  *********************************************************
  *             Data manipulation functions               *
@@ -55,8 +64,8 @@ let mult_vector scalar (u,v:vector) =
  *)
 
 let init_screen () =
-  close_graph ();
-  open_graph " 800x600-0+0"
+  open_graph " 800x600-0+0";
+  clear_graph()
 ;;
 
 
@@ -127,5 +136,10 @@ let rec divide (t,a,b,c as tri : triangle) generation  =
  *********************************************************
  *)
 
-init_screen ();
-divide first_triangle 6;;
+let start_game t_triangle generation =
+  init_screen ();
+  match t_triangle with
+  |"acute" -> divide first_triangle_acute generation
+  |"obtuse" -> divide first_triangle_obtuse generation
+  |_ -> failwith "acute or obtuse"
+;;

@@ -1,0 +1,70 @@
+\begin{frame}{Tours de Hanoï}
+
+Tour du Brahmâ, fin du monde et racine triangulaire.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Trois tours}
+\end{enumerate}
+
+Solution optimale : \(\Phi(N) = 2^{N}-1\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{Quatre tours}
+\end{enumerate}
+
+Solution optimale :
+\(\Phi(N)=2^{\nabla 0}+2^{\nabla 1}+\cdots+2^{\nabla(N-1)}\) où
+\(\nabla n\) est le plus grand entier \(p\) tel que
+\(p(p+1)/2\leq n\).\footnote<.->{cf.
+  \url{http://www.cnrs.fr/insmi/spip.php?article1170}}
+
+\end{frame}
+
+\begin{frame}{Un beau graphique}
+
+\includegraphics{BarbierFerrand_presentation_files/figure-beamer/unnamed-chunk-1-1.pdf}
+
+\end{frame}
+
+\begin{frame}{Première implémentation}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Implémentation complète}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Deuxième implémentation}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Définition d'une nouvelle structure}\\
+  \includegraphics{struct_donnee_hanoiv2.png}
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{Modification de la fonction mouvement}\\
+  \includegraphics{fonction_mouvement.png}
+\end{enumerate}
+
+\end{frame}

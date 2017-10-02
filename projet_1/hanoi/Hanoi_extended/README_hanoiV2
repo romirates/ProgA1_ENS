@@ -1,0 +1,21 @@
+                      Hanoi V2 
+             ***************************
+             *                         *
+             *       HOW TO PLAY       *
+             *                         *
+             ***************************
+1. charge hanoiv2.ml on the ocaml-toplevel
+
+2. run "start_game <nb_disc>;;" 
+   where nb_disc is the number of disc you want.
+
+3. admire 
+
+4. run get() to know how many step it took to complete the game.
+
+Things you might want to change :
+
+- height and width : screen's proportion
+
+- speed_game : lower is faster
+

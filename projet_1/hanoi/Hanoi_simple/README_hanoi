@@ -1,0 +1,14 @@
+        ***************************
+        *                         *
+        *       HOW TO PLAY       *
+        *                         *
+        ***************************
+
+1. charge hanoi.ml on the ocaml-toplevel
+
+2. run "start_game <nb_disc>;;" 
+   where nb_disc is the number of disc you want.
+
+3. let the program spam the console.
+
+4. run get() to know how many step it take to resolve the game.

@@ -18,17 +18,26 @@ type triangle = angle * point * point * point;;
  *                  Constants                            *
  *********************************************************
  *)
-
+let length_triangle = 450.0;;
 let phi = 1.61803398875;;
 let inv_phi = 0.61803398875;;
-let first_triangle =
-  let len = 450.0 in
+
+let first_triangle_acute =
   (Acute,
   (10. , 10.),
-  (10.+. (len *. phi) , 10.),
-  (1.30901699438 *. len +. 10., 0.95105651629 *. len +.10.)
+  (10. +. length_triangle *. phi , 10. ),
+  (10. +. 1.30901699438 *. length_triangle, 10. +. 0.95105651629 *. length_triangle)
   : triangle)
 ;;
+
+let first_triangle_obtuse =
+  (Obtuse,
+  (10. , 10.),
+  (10. +. (length_triangle *. phi) , 10.),
+  (10. +. phi/.2. *. length_triangle, 10. +. 0.5877852523 *.  length_triangle)
+  : triangle)
+;;
+
 let speed = 1.5;;
 
 (*
@@ -213,6 +222,10 @@ let penrose tri generation =
  *                     Tests                             *
  *********************************************************
  *)
-
-init_screen ();
-penrose first_triangle 6;;
+let start_game t_triangle generation =
+  init_screen ();
+  match t_triangle with
+  |"acute" -> penrose first_triangle_acute generation
+  |"obtuse" -> penrose first_triangle_obtuse generation
+  |_ -> failwith "acute or obtuse"
+;;

@@ -14,19 +14,19 @@
 4. run get() to know how many step it take to resolve the game.
 
 *)
-
-type rod = string;;
-
-let rodA:rod = "A"
-and rodB:rod = "B"
-and rodC:rod = "C";;
-    
 (*counter *)
 let count = ref 0;;
 let init_counter() = (count := 0);;
 let step() = (incr count);;
 let get() = (!count);;
 
+
+
+type rod = string;;
+
+let rodA:rod = "A"
+and rodB:rod = "B"
+and rodC:rod = "C";;
 
 let movement (origin:rod) (destination:rod) =
   print_string
@@ -35,15 +35,14 @@ let movement (origin:rod) (destination:rod) =
   print_newline()
 ;;
 
-(* the first argument is the source, and the 3rd the destination. *)
-
-let rec hanoi (a:rod) (b:rod) (c:rod) = function
-  |0 -> ()
-  |n_disc ->
-    step();
-    hanoi a c b (n_disc-1);
-    movement a c;
-    hanoi b a c (n_disc-1)
+let rec hanoi (nb_disc:int) (a:rod) (b:rod) (c:rod) = 
+    if nb_disc = 0 then ()
+    else
+      begin
+        hanoi a c b (n_disc-1);
+        movement a c;
+        hanoi b a c (n_disc-1)
+      end
 ;;
 
 let start_game nb_disc =
