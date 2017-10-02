@@ -3,6 +3,8 @@
 
 let size = 450.
 and margin = 10.
+and generations = 6
+;;
 
 (*
  *********************************************************
@@ -19,4 +21,4 @@ let init_screen () =
 ;;
 
 init_screen ();
-penrose first_triangle 6;;
+penrose first_triangle generations;;
