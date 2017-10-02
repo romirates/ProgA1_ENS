@@ -5,6 +5,7 @@
 let speed = 1.5
 and size = 450.
 and margin = 10.
+and generations = 6
 ;;
 
 
@@ -24,4 +25,4 @@ let first_triangle = get_basic_acute_triangle size margin;;
 ;;
 
 init_screen ();
-penrose_extended first_triangle 6;;
+penrose_extended first_triangle generation;;
