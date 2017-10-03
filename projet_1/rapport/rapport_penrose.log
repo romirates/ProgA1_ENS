@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.10.3)  3 OCT 2017 20:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex 2017.10.3)  3 OCT 2017 20:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -504,6 +504,9 @@ File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 
 LaTeX Warning: Label `fig:penrose_example' multiply defined.
 
+
+LaTeX Warning: Label `fig:penrose_example' multiply defined.
+
 )
 \openout1 = `rapport_penrose.aux'.
 
@@ -628,34 +631,34 @@ LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 47.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 59.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 58.
 
 <penrose_example.png, id=8, 795.97375pt x 512.91624pt>
 File: penrose_example.png Graphic file (type png)
 
 <use penrose_example.png>
-Package pdftex.def Info: penrose_example.png used on input line 63.
+Package pdftex.def Info: penrose_example.png used on input line 62.
 (pdftex.def)             Requested size: 362.37569pt x 233.5103pt.
  <division_penrose.png, id=9, 378.213pt x 230.3004pt>
 File: division_penrose.png Graphic file (type png)
 
 <use division_penrose.png>
-Package pdftex.def Info: division_penrose.png used on input line 76.
+Package pdftex.def Info: division_penrose.png used on input line 75.
 (pdftex.def)             Requested size: 362.37569pt x 220.6677pt.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 81.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 80.
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--87
+Underfull \hbox (badness 10000) in paragraph at lines 82--86
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--93
+Underfull \hbox (badness 10000) in paragraph at lines 91--92
 
  []
 
 [1 <./penrose_example.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 102--103
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
 
  []
 
@@ -663,61 +666,63 @@ Underfull \hbox (badness 10000) in paragraph at lines 102--103
 File: penrose_inline1.png Graphic file (type png)
 
 <use penrose_inline1.png>
-Package pdftex.def Info: penrose_inline1.png used on input line 114.
+Package pdftex.def Info: penrose_inline1.png used on input line 113.
 (pdftex.def)             Requested size: 362.37569pt x 239.28047pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 118--120
+Underfull \hbox (badness 10000) in paragraph at lines 117--119
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
+Underfull \hbox (badness 10000) in paragraph at lines 120--121
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
+Underfull \hbox (badness 10000) in paragraph at lines 122--126
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 128--131
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--138
+Underfull \hbox (badness 10000) in paragraph at lines 127--130
 
  []
 
 [2 <./division_penrose.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 149--153
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--158
+Underfull \hbox (badness 10000) in paragraph at lines 148--152
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--165
+Underfull \hbox (badness 10000) in paragraph at lines 153--157
 
  []
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 168.
+
+Underfull \hbox (badness 10000) in paragraph at lines 158--164
+
+ []
+
+[3 <./penrose_inline1.png>]
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 167.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-) [3 <./penrose_inline1.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 173
+)
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 172
 .
-LaTeX Font Info:    No file OMScmss.fd. on input line 173.
+LaTeX Font Info:    No file OMScmss.fd. on input line 172.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/it' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textasteriskcentered' on input line 173.
+(Font)              for symbol `textasteriskcentered' on input line 172.
 
 [4] (./rapport_penrose.aux)
 
@@ -734,7 +739,7 @@ Here is how much of TeX's memory you used:
  9021 multiletter control sequences out of 15000+600000
  38668 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 39i,6n,49p,261b,1655s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,6n,49p,261b,1362s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/bie/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0900.600pk
 > </home/bie/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0900.600pk>
  </home/bie/.texlive2016/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsx0900.600pk>{
@@ -745,7 +750,7 @@ ts/type1/public/amsfonts/latxfont/lcircle1.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/
 uplri8a.pfb>
-Output written on rapport_penrose.pdf (5 pages, 153740 bytes).
+Output written on rapport_penrose.pdf (5 pages, 153823 bytes).
 PDF statistics:
  118 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream
