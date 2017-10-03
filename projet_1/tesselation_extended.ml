@@ -4,7 +4,7 @@ let tesselation_extended speed draw draw_outline draw_separation divide root gen
    * Divides the object 'root' 'generations' times, and renders each generation.
    *
    * - speed : float
-   *   The minimal time in seconds between each generation.
+   *   The minimal time in seconds between each generation's rendering.
    *
    * - draw : 'a -> ()
    *   Renders an objects.
