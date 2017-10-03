@@ -57,20 +57,22 @@ Puis étudierons différents pavages de Penrose.
   \label{fig:hanoi}
 \end{figure}
 
-Les Tours de Hanoï est un jeu de réflexion inventé par le mathématicien \textbf{Édouard Lucas} (1842-1891).
+Les Tours de Hanoï forment un jeu de réflexion inventé par le mathématicien \textbf{Édouard Lucas} (1842-1891).
 Il consiste à déplacer un nombre donné de disques de différents diamètres de la tour de départ vers la tour d'arriver, tout en passant par une tour intermédiaire.
 \paragraph{Règles:}\mbox{}\\
+
 Le joueur doit également respecter deux règles:
 \begin{itemize}
-\item déplacer un disque à la fois;
-\item ne pas déplacer un disque donné sur un disque plus petit.
+\item il ne peut déplacer qu'un seul disque à la fois;
+\item il ne peut pas déplacer un disque sur un autre disque plus petit.
 \end{itemize}
+
 \paragraph{Solution optimale:}\mbox{}\\
-Le nombre de coups optimal pour résoudre les Tours de Hanoï classique est en fonction de $n$ le nombre de disque est : \(\Phi(N) = 2^{N}-1\)
+Le nombre de coups optimal pour résoudre les Tours de Hanoï classique à $n$ disques est : \(\Phi(N) = 2^{n}-1\)
 \newpage
 \subsubsection{Implémentation sans affichage graphique}
 \label{sec:algoBase}
-L'algorithme le plus intuitif pour résoudre le problème des Tours de Hanoï à trois tours,
+L'algorithme le plus intuitif pour résoudre le problème des Tours de Hanoï à trois tours
 est un algorithme récursif très simple.
 
 \begin{algorithm}
@@ -88,7 +90,7 @@ est un algorithme récursif très simple.
 \end{algorithmic}
 \end{algorithm}
 
-Il a donc été implémenté sans trop difficulté, avec, dans un premier temps,  un affichage console pour signifier les mouvements effectués.
+Il a donc été implémenté sans trop difficulté, avec, dans un premier temps,  un affichage textuel pour donner les mouvements effectués.
 \begin{lstlisting}
   let rec hanoi (nb_disc:int) (a:rod) (b:rod) (c:rod) =
     if nb_disc = 0 then ()
@@ -101,16 +103,15 @@ Il a donc été implémenté sans trop difficulté, avec, dans un premier temps,
   ;;
 \end{lstlisting}
 
-Dans notre implémentation, nous avons simplement défini une tour par un nouveau type \textbf{rod}, qui dans cette première implémentation est une lettre.
+Nous avons simplement défini une \textbf{Tour} par un nouveau type \textbf{Rod}, qui dans cette première implémentation est une lettre.
 
 \subsubsection{Validation}
 
 Comme expliqué précédemment l'implémentation récursif des Tours de Hanoï est simple et connue.
-
 Une preuve de son optimalité se démontre par le fait que :
 Pour une pile de $N$ disques, pour tout $n$ pile tel que $n \in [1,...,N]$ on effectue $n-1$ déplacement de A vers B puis un déplacement de A vers C puis $n-1$ on a donc bien $2^{N} - 1$ coups effectués.
 
-Le graphique suivant montre le nombre de coup effectués expérimentalement par l'algorithme en fonction du nombre de disques :
+Le graphique suivant montre le nombre de coups effectués expérimentalement par l'algorithme en fonction du nombre de disques :
 \begin{figure}[h]
   \includegraphics[width=0.8\textwidth]{graph_hanoi.png}
   \label{fig:graph_hanoi}
@@ -151,15 +152,16 @@ Notre première approche a été de considérer les types suivants:
 \end{description}
 \end{multicols}
 \paragraph{De bonnes relations entre les données:}\mbox{}\\
-La pile de disque est vu comme ayant une relation de combinaison avec les tours, ainsi chaque tour  "possède" sa pile de disque et l'affiche en fonction de sa position.
+La pile de disque est vu comme ayant une relation de combinaison avec les tours, ainsi chaque tour  \og possède \fg sa pile de disque et l'affiche en fonction de sa position.
 L'idée étant de gérer, par la suite, le déplacement donné par l'algorithme de Hanoï, par un \textbf{pop} de la \textbf{Tour source} en \textbf{push} de la \textbf{Tour destination}.
 Puis de gérer l'affichage Tour par Tour. 
 
-\paragraph{Mais des problèmes de type:}\mbox{}\\
+
+\paragraph{Des problèmes de type:}\mbox{}\\
 Dans un premier temps, nous avons implémenté ces types sous forme de \textit{tuples}, cette manière de faire a rapidement créé un code lourd et complexe à gérer.
 En effet, dans le cas du type \textbf{Tour}, nous devions réfléchir de manière positionnelle ou utiliser l'unpacking de Ocaml.
 De cette manière, nous avions à traiter plus de données que nous en avions besoin.
-Dans un même temps le "champ" \textbf{Contenu} du type \textbf{Tour} était immutable,
+Dans un même temps le \og champ \fg \textbf{Contenu} du type \textbf{Tour} était immutable,
 cela se caractérisait par la nécessité de reconstruire une instance de \textbf{Tour} à chaque modification de sa liste de disque.
 \paragraph{Et des solutions:}\mbox{}\\
 Nous avons donc décidé de remplacer le \textit{tuple} de \textbf{Tour} par un \textit{record}, tout en rendant mutable le champ \textbf{Contenu}.
@@ -182,8 +184,8 @@ Nous avons donc juger utile de ne garder que sa position, sa hauteur et sa large
 \paragraph{Modularité :}\mbox{}\\\\
 Une des lacunes principales de notre code était sa non modularité, en effet la première implémentation utilisait explicitement des types basiques (tuples, a' list, entier, etc.), ainsi que des fonctions d'affichage en même temps que des traitement sur les données.
 Le choix a été fait de garder seulement quelques constantes et déclarations ainsi que l'algorithme principal.
-Le reste à quand à lui été séparé en trois modules:
 
+Le reste a quant à lui été séparé en trois modules:
 \subparagraph{Module Disc}
 \begin{center}
 	\textbf{Signature du module}
@@ -198,7 +200,7 @@ Le reste à quand à lui été séparé en trois modules:
 	\end{lstlisting}
 \end{center}
 
-Ce module gère simplement le type disque, l'utilisateur à donc simplement la possibilité de crée des disques en fonction d'une largeur et d'une hauteur ainsi que retrouver ces informations à partir d'un disque.
+Ce module gère simplement le type disque, l'utilisateur a donc simplement la possibilité de créer des disques en fonction d'une largeur et d'une hauteur ainsi que retrouver ces informations à partir d'un disque.
 
 \subparagraph{Module Rod}
 \begin{center}
@@ -253,7 +255,7 @@ Elle se justifie par la présence des Tours, qui nécessite donc l'affichage d'u
 
 \subparagraph{}
 Une seconde optimisation cette fois effectué a été d'utiliser le \textit{double buffering} du module \textbf{Graphics}:
-\textbf{Graphics} par défaut "dessine" à la fois sur l'écran et dans une zone mémoire appelé \textit{backing store}.
+\textbf{Graphics} par défaut \og dessine \fg à la fois sur l'écran et dans une zone mémoire appelé \textit{backing store}.
 Grâce à l'option \textbf{autosynchronize false}.
 Nous avons pu faire en sorte que \textbf{Graphics} écrive que dans le \textit{backing store} et qu'il se synchronise avec l'affichage que lorsqu'on le juge utile, à savoir lorsque toutes les opérations d'affichage ont été effectuées.
 Cette manière de faire permet d'éviter les problèmes de \textit{flickering} lorsque la vitesse du jeu est très rapide.

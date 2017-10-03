@@ -45,11 +45,10 @@
 \end{titlepage}
 
 \section*{Introduction}
-\begin{center}
-	Dans ce document nous allons vous présenter notre étude du problème de Hanoï,
-    ainsi que les différentes implémentations visant à sa résolution.
-    Puis étudierons différents pavages de Penrose.
-\end{center}
+  Dans ce document nous allons vous présenter notre étude des tours de Hanoï et du
+  pavage de Penrose. Nous avons proposé des algorithmes répondant aux problèmes posés, puis
+  nous avons proposé certaines améliorations à ces algorithmes, en terme de contraintes posées,
+  de structure de donnée ou encore d'affichage.
 
 \section{Pavage de Penrose}
 \label{chap:penrose}
@@ -71,7 +70,12 @@ Notre but sera de découper un triangle d'or (dont les côtés ont un ratio éga
 en des triangles de même forme selon les règles suivantes,
 et de répéter cette action sur les triangles ainsi formés.
 
-% INCLUDE GRAPHICS TO EXPLAIN RULES
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{division_penrose.png}
+  \caption{Division des deux types de triangle}
+  \label{fig:penrose_example}
+\end{figure}
 
 \subsubsection{Première implémentation}
 \label{sec:algoBasePenrose}
@@ -180,5 +184,15 @@ L'algorithme est schématiquement :
     end
   ;;
 \end{lstlisting}
+Pour gérer les arguments contenant les générations, nous avions le choix entre des listes et
+des files, cependant ces deux implémentations donnent un même coût en mémoire et en espace,
+nous avons donc choisi d'utiliser des listes car nous avons plus l'habitude d'utiliser ces
+objets.\\
 
+\subsection{Conclusion}
+Nous avons réussi à créer un algorithme efficace qui répond aux contraintes que nous nous
+sommes posés. Cependant, cet algorithme parcours l'arbre de nombreuses fois car il doit
+afficher les séparateurs à chaque nœud à chaque affichage. Le gain était de ne pas avoir
+à afficher plusieurs fois le même trait, mais on peut se demander si cela est réellement pire
+que de reparcourir l'arbre.
 \end{document}
